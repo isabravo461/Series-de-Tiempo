@@ -44,6 +44,5 @@ nombres <- c("Sergio", "Carlos", "Paula")
     #####para expandir la encuesta   aaa y "#" para comentarios ;)
     
   install.packages("questionr")  ###bajamos de internet la libreria
-  require("questionr") ### manDamos llamar la libreria a mi secion de R
+  require(questionr) ### manDamos llamar la libreria a mi secion de R
   wtd.table (SDEMT116$SEX, weights = SDEMT116$FAC)
-  
