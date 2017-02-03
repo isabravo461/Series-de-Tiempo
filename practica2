@@ -14,3 +14,13 @@ wtd.table (SDEMT116$CLASE2, weights = SDEMT116$FAC) ##### Factor de expansion
 #### Filtrar casos subset (un subconjunto)
 AGS16V1 <- subset (SDEMT116, SDEMT116$ENT == "01" & SDEMT116$ENT == "02")
 table (SDEMT116$ENT)
+
+
+data ("AirPassengers")
+class (AirPassengers)
+start (AirPassengers) ###muestra cuando inicia el st
+end (AirPassengers) #Muestra cuando acaba la st
+frequency (AirPassengers)#### que frecuencia la st
+summary (AirPassengers) ### resumen de los datos de la st
+plot (AirPassengers)
+View(AirPassengers)
