@@ -1,0 +1,34 @@
+############### Practica 3################# 8/feb/2017
+pob <- sample (100:120, 15, replace = F)
+
+#### La convertimos en serie de tiempo
+#############en el ejemplo vampos a proponer la poblacion en el año 2000 que el min 100, max 120, 15 datos
+pobts <- ts (pob, frequency = 1, start = (2000))
+pobts
+####ts es la funciín para que R la vea como serie de tiempo
+### para ver cuando termina mi serie de tiempo
+end (pobts)
+start (pobts)
+plot (aggregate (pobts))
+
+
+#### bajar del inegi la ocupacion de las personas
+#### importar cvs
+infor<-ts(read.csv(("C:\\Users\\SALA-D17\\Downloads\\infor.csv")), frequency = 4, start = (2005))
+infor
+ind2 <-  ts(read.csv(("C:\\Users\\SALA-D17\\Downloads\\ind2.csv")))
+decost <- ts (ind2[,1], frequency = 4, start = 2005)
+plot (ind2)
+plot (decost)
+decost
+decost <- ts (ind2[,1], frequency = 4, start = 2005, end = 2014)
+decost
+ocuPdeso <- ts (ind2[,2], frequency = 4, start = 2005)
+ocuPdeso
+Trabas <- ts (ind2[,3], frequency = 4, start = 2005)
+Trabas
+Concrit <- ts (ind2[,4], frequency = 4, start = 2005)
+Concrit
+#### el corchete es para vectores [^.^]PRIMERO RENGLONES y [,^_^] segundo columnas ;) 
+##################Tarea: Investigar como hacer que de hasta el último dato de la tabla
+###########jalar la Base de Datos de la pag. del Inegi sin tener que guardarla y la abra en R Y SUBIRLA COMO TAREA 1
