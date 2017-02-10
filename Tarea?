@@ -1,0 +1,4 @@
+ventas<-sample(22:900,32, replace =F)
+ventas
+STven<-ts(ventas,frequency=4,start = 2014,end =c(2024,2))
+STven
