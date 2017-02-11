@@ -55,15 +55,16 @@ plot.ts(pceu [,c(1,3)])
 ###Graficar en una misma imagen la ST 2 y 3
 
 getwd()
-Pib_MX <- read.csv("PIB_Mx.csv")
-ST1 <- ts (Pib_MX[], frequency = 1, start = (20))
-  
+Pib_MX <- read.csv("PIB.csv")
+ST1 <- ts (Pib_MX[1:10,], frequency = 1, start = (1980))
 ST1
-ST2 <- Mpib[c(11:20),]
+ST2 <- ts (Pib_MX[11:20,], frequency = 1, start = (1991))
 ST2
-ST3 <- Mpib[c(21:30),]
+ST3 <- ts (Pib_MX[21:30,], frequency = 1, start = (2001))
 ST3
-ST4 <- Mpib[c(31:35),]
+ST4 <- ts (Pib_MX[31:36,], frequency = 1, start = (2011))
 ST4
 X11()
 plot(cbind(ST2, ST3))
+X11()
+plot(cbind(ST1, ST4))
