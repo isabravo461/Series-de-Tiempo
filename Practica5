@@ -1,0 +1,60 @@
+desocu <- sample(3:10, 120, replace = T)
+pob<- sample(92:98,120, replace = T)
+ase<- sample(45:60,120, replace = T)
+infor<- sample(23:25,120, replace = T)
+
+descounts <- ts(desocu, frequency = 12, start=2002)
+pobts <- ts(pobts, frequency=12, start = 2002)
+asets <- ts(ase, frequency=12, start = 2002)
+inforts <- ts(infor, frequency=12, start = 2002)
+###### Serie de tiempo Multiple ####################
+seriemultiple<- ts.intersect(descounts,pobts,asets,inforts)
+plot(seriemultiple,main="Serie de tiempo multiple", xlab="Años",
+     ylab="Número de personas", col="purple", type="overolotted",
+     pch = 2) ###Grafica de serie de tiempo multiple
+seriemultiple02.07<-window(seriemultiple, start=c(2002,1),end=c(2007,1))
+seriemultiple07.12<-window(seriemultiple, start=c(2007,1),end=c(2010,12))
+plot(seriemultiple02.07,main="Serie de tiempo multiple", xlab="Años",
+     ylab="Número de personas", col="black", type="overolotted",
+     pch = 2) ###Grafica de serie de tiempo multiple
+
+
+
+########################################################################
+#####ejercicio
+# Obtener 4 series de tiempo con un mínimo de 30 datos.....
+# Las series de tiempo que importemos tienen que tener sustento para compararlas
+#1) SERIE 1
+#2)SERIE 2
+#3)SERIE 3
+#4) SERIE 4
+
+##### IMPORTARLAS, DECLARARLAS SERIES DE TIEMPO, GRAFICARLAS JUNTAS
+# COMO SERIES DE TIEMPO PARA CADA UNA
+### CERRAR SERIE DE TIEMPO MULTIPLE... Y GRAFICARLA CON FORMATO
+### DESPUÉS DIVIDIR ESTA SERIE DE TIEMPO EN 3 PERIODOS CON INTERVALOS IGUALES... 
+#### es decir si tenen 30 datos
+### Generar 3 ST con 10 años cada una y graficarlas con formato
+###investigar como graficar la serie de tiempo multiple con diferentes colores
+########################################################################################
+Ascom<-read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/car/Anscombe.csv")
+edu<- ts(Ascom$education, frequency=1, start = 1)
+income <- ts(Ascom$income,frequency = 1, start = 1)
+young <- ts(Ascom$income,frequency = 1, start = 1)
+urban <- ts(Ascom$urban, frequency = 1, start = 1)
+plot(edu,main="Serie de tiempo de educación", col="grey")
+plot(income,main="Serie de tiempo de educación", col="blue")
+plot(young,main="Serie de tiempo de educación", col="yellow")
+plot(urban,main="Serie de tiempo de educación", col="pink")
+seriemultipleT<- ts.intersect(edu, income, young, urban)
+plot(seriemultipleT,main="Serie de tiempo multiple de Muestreo", xlab="Edad",
+     ylab="Número de personas", col="green", type="overolotted",
+     pch = 2) ###Grafica de serie de tiempo multiple
+ST1<-window(seriemultipleT, start=c(1,1),end=c(13,1))
+ST2<-window(seriemultipleT, start=c(13,1),end=c(25,1))
+ST3<-window(seriemultipleT, start=c(25,1),end=c(37,1))
+ST4<-window(seriemultipleT, start=c(37,1),end=c(52,1))
+plot(ST1,main="Serie de tiempo de educación", col="blue")
+plot(ST2,main="Serie de tiempo de educación", col="blue")
+plot(ST3,main="Serie de tiempo de educación", col="yellow")
+plot(ST4,main="Serie de tiempo de educación", col="pink")
