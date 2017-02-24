@@ -2,7 +2,7 @@ desocupacion<-read.csv(file.choose())
 tsd<-ts(desocupacion, frequency=4,start=2007)
 tsd
 
-
+decompose(tsd)
 meannc<-1:45
 for(i in 1:45) {
   meannc[i]<-(tsd[i,1]+tsd[i+1,1]+tsd[i+2,1]+tsd[i+3,1])/4
@@ -48,12 +48,19 @@ for(c in 1:12)
 est
 
 v<-matrix(1:4,nrow=4)
-for (i in 1:4)
-{
-  v[i,1]<-mean(est[i,])
-}
-v
 
+v[1,1]<-mean(est[1,2:12])
+v[2,1]<-mean(est[2,2:12])
+v[3,1]<-mean(est[3,1:11])
+v[4,1]<-mean(est[4,1:11])
+v
+est
 tabla<-cbind(est,v)
-dimnames(tabla)<-list(c("Trimestre 1","Trimestre 2","Trimestre 3","Trimestre 4"),c(2007:2018,"IVE"))
+
 View(tabla)
+iveglobal <- mean(tabla[,13])
+iveglobal
+tabla2 <- cbind(est,v,v-iveglobal)
+
+dimnames(tabla2)<-list(c("Trimestre 1","Trimestre 2","Trimestre 3","Trimestre 4"),c(2007:2018,"IVE","IVE CORREGIDO"))
+View(tabla2)
