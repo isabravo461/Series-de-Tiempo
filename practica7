@@ -1,0 +1,35 @@
+s <-5
+while(s < 6) {s <- s*2; print(s);}
+
+a <-7
+while(a < 6) {a <- s*2; print(a);}
+
+s<- 1
+while(s<5) {s <- s+1; if(s==4) break; print(s);}
+
+s <- 7
+while(s < 5) {s <- 0+1; ; if (s == 2) break; print(s);}
+
+s <- 2
+while(s<5) {s <- s+1; if (s == 3) next; print(s);}
+
+sample (1:32, 2)
+
+
+tsdes <- ts(desocupacion,frequency = 4,start = 2005)
+detsdes <- decompose(tsdes, type= "multiplicative") ###para que sea multiplicativo tenemos que señalarle a R que es multiplicativo porque si no lo toma como aditivo
+detsdes$trend
+detsdes$seasonal
+plot(tsdes, col = "blue")
+main="tasa de desocupacion trimestral",
+ylab= "Tasas", xlab="Años"
+lines(detsdes$trend, col="red",ylab="Tendencia")
+#### tendencia de mi serie descompuesta(tendencia)
+
+monthplot(detsdes$seasonal, main="IVEc", ylab = "ivec trimestral")
+##### Para graficar, en este caso estacionalidad
+############# TAREA para el lunes
+###  1) encontrar una serie de tiempo con tendencia a la alza y
+### que la estacionalidad también se incremente
+### 2) aplicar el modelko multiplicativo
+### 3) Graficar tendencia.....
