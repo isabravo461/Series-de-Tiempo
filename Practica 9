@@ -1,0 +1,30 @@
+install.packages("fpp")
+require(fpp)
+x11();plot(window(elec,start=1980),ylab="Gwh",xlab="Year",main="Australian electricity production")
+###ESTA, TENDENCIA Y CICLO
+seasonplot(elec,s=4,year.labels=TRUE,main="Electric",ylab="valor cierre",col=rainbow(13),year.labels.left=TRUE,pch=15)
+###en el tercer trimestre se esta dando el componente ciclico
+seasonplot(elec,s=12,year.labels=TRUE,main="valor acciones ICA",ylab="valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=15)
+
+plot(window(bricksq,ylab="million units",xlab="Year",main="Australian clay brick production"))
+seasonplot(bricksq,s=12,year.labels=TRUE,main="valor acciones ICA",ylab="valor cierre",col=rainbow(13),year.labels.left=TRUE,pch=15)
+
+###ESTA, TENDENCIA Y CICLO
+x11();plot(hsales,main="Sales of new one-family houses,USA",ylab="Total sales",xlab="Year")
+###No estacionalidad ni tendencia, posible ciclo
+seasonplot(hsales,s=12,year.labels=TRUE,main="venta de casas",ylab="valor cierre",col=rainbow(13),year.labels.left=TRUE,pch=15)
+###Cuando hay constantes en los comportamientos se puede determinar estacionalidad
+
+###Si quisiera hacer mi predicción uitando estacionalidad 
+dec <- decompose(bricksq)
+#eliminando tendencia
+sinesta <- bricksq - dec$seasonal
+sintend <- bricksq - dec$trend
+
+x11();plot(sinesta)
+x11();plot(sintend)
+
+###Tarea: Analizar el porcentaje del PIB ANUAL 70 A 89 
+###DECIS SI HAY ESTACIONALIDAD O QUE Y PORQUE QUE PASO EN MÉXICO EN ESE PERIODO
+###SUBIR EN WORD LAS GRAFICAS Y LA INTERPRETACION, NOMBRE DE TAREA 1 
+####LEER POR QUE EN MEXICO DE 60 A 80 CRECIO DE UNA MANERA Y DE 80 A ADELANTE DE OTRA MANERA
