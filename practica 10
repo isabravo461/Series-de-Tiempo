@@ -1,0 +1,29 @@
+###como vimos la clase pasada hay 2 modelos que podemos descomponer
+##1)Modelo aditivo .... x t = m t + st + z t
+##2)Modelo multiplicativo ... x t = m t A* s t * z t
+
+##Ahora pafra descomponer una serie por modelo aditivo...
+# tdescaocald <- decompose(serie)
+##
+desp <- read.csv(choose.files())
+des <- ts(desp, frequency = 4, start = 2005)
+decdes <- decompose(des) ##descomposicion modelo aditivo
+decdes22 <- decompose(des, type = "mult") ##descomposición modelo multiplicativo
+###graficamos los 2 modelos
+x11();plot(decdes)
+x11();plot(decdes22)
+
+# destacionalizar una serie 
+##se destacionaliza una serie de tiempo por diferentes razones
+# entre las que se destacan estacionalizar para poder predecir
+# nuestros datos con mayor presicion y sin cortar con factores
+# externos al comportamiento de nuestros datos
+#dos elementpos que permites destgacionalizar una serie
+install.packages("fpp")
+require(fpp)
+eeadj<- seasadj(decdes)
+### forma 2
+eeadj2 <- des - decdes$seasonal 
+x11();plot(des, col = "pink")
+
+lines(eeadj, col = "blue")
