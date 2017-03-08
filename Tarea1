@@ -1,0 +1,24 @@
+###Tarea: Analizar el porcentaje del PIB ANUAL 70 A 89 
+###DECIS SI HAY ESTACIONALIDAD O QUE Y PORQUE QUE PASO EN MÉXICO EN ESE PERIODO
+###SUBIR EN WORD LAS GRAFICAS Y LA INTERPRETACION, NOMBRE DE TAREA 1 
+####LEER POR QUE EN MEXICO DE 60 A 80 CRECIO DE UNA MANERA Y DE 80 A ADELANTE DE OTRA MANERA
+
+c <- read.csv(choose.files())
+PibMex <- ts (c, frequency = 1,start = 1970)
+View(PibMex)
+x11();plot(PibMex)
+install.packages("fpp")
+require(fpp)
+x11();plot(window(PibMex,start=1970),ylab="Crecimiento del Pib (%)",
+              xlab="Año",main="Pib de México", col="darkorchid",type="l",lwd=4)
+
+
+## en 1070 México sen encontraba en reseción y en 1991
+## la económía empezó a ecelerarce y el Pib se incrementó
+## hasta que en 1976 el país se vio afectado por una crisis
+## de la balanza de pago debido al aumento en la deuda externa
+## Por 1982 el país tenía una deuda inmensa que recibiría el
+## nombre de crisis de 1892. En este periodo se instaló el
+## modelo Neoliberal que puso fin a la fuerte intervención del 
+## Estado en algunas actividades económicas
+dev.print(file="tarea.pdf",device=pdf)
