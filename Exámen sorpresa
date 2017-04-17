@@ -1,0 +1,81 @@
+######Bajar acciones de ICA, NETFLIX, TELEVISA Y TV AZTECA DIARIO
+N<-read.csv(choose.files())
+ICA<-ts(N,frequency = 252,start = 2016)
+ICA
+require(forecast)
+I1<-ses(ICA,alpha=.2,initial="simple",h=8);I1
+I2<-ses(ICA,alpha=.4,initial="simple",h=8);I2
+I3<-ses(ICA,alpha=.6,initial="simple",h=8);I3
+I4<-ses(ICA,alpha=.8,initial="simple",h=8);I4
+
+x11();plot(ICA,main="Acciones de ICA",xlab="años",ylab="Acción",type="o")
+lines(fitted(I1),col="blue",type="o")
+lines(fitted(I2),col="pink",type="o")
+lines(fitted(I3),col="purple",type="o")
+lines(fitted(I4),col="grey",type="o")
+###El mejor modelo es el gris, el del modelo4
+
+##calculando los residuales 
+e1<-ICA-I1$fitted;I1
+e2<-ICA-I2$fitted;I2
+e3<-ICA-I3$fitted;I3
+e4<-ICA-I4$fitted;I4
+
+##Calculo del MAE
+##calculando los residuales 
+
+e1<-desots-m1$fitted;e1
+e2<-desots-m2$fitted;e2
+e3<-desots-m3$fitted;e3
+e4<-desots-m4$fitted;e4
+
+##Calculo del MAE
+mae1<-mean(abs(e1))
+mae2<-mean(abs(e2))
+mae3<-mean(abs(e3))
+mae4<-mean(abs(e4))
+M<-c(mae1,mae2,mae3,mae4)
+M
+#Calculo del RMSE
+RS1<-sqrt(mean(e1^2))
+RS2<-sqrt(mean(e2^2))
+RS3<-sqrt(mean(e3^2))
+RS4<-sqrt(mean(e4^2))
+RMSR<-c(RS1,RS2,RS3,RS4);RMSR
+#en r se utiliza la función accuarcy para obtener varios tipos de análisis de errores
+accuracy(m1)
+accuracy(m2)
+accuracy(m3)
+accuracy(m4)
+
+#Calculo del RMSE
+sqrt(mean(e1^2))
+sqrt(mean(e2^2))
+sqrt(mean(e3^2))
+sqrt(mean(e4^2))
+
+#en r se utiliza la función accuarcy para obtener varios tipos de análisis de errores
+accuracy(I1)
+accuracy(I2)
+accuracy(I3)
+accuracy(I4)
+I1
+
+mejoralpha<-function(RMSE,M){
+  n<-length(M)
+h<-min(M)
+for(i in 1:n)
+{if(M[i]==h){
+    cat("El mejor modelo, el que mejor se acerca al 0 es el modelo","\n",i,"\n","con un error de MAE de","\n",M[i])
+  }
+}
+for(i in 1:n)
+{if(RMSE[i]==min(RMSE)){
+  cat("Y el mejor modelo respecto al RMSR","\n",i,"\n","con un error de MAE de","\n",min(RMSE))
+}
+}
+}
+mejoralpha(RMSR,M)
+
+X11();plot(ICA,main="Acciones del ICA",xlab="años",ylab="Acción",type="o")
+##NO HAY TENDENCIA, EXISTE POCA ESTACIONALIDAD, EXISTEN 2 CICLOS Y SI HAY ALEATORIEIDAD
