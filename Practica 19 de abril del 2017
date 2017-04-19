@@ -1,0 +1,86 @@
+aa <- read.csv(file.choose())
+require(fpp)
+aa<-ts(aa,start=2005,frequency=4)
+aa
+mod1<-ses(aa,alpha = .2,initial = "simple",h=4)
+mod2<-ses(aa,alpha = .4,initial = "simple",h=4)
+mod3<-ses(aa,alpha = .6,initial = "simple",h=4)
+mod4<-ses(aa,alpha = .8,initial = "simple",h=4)
+
+############## ANALISIS DE MODELOS RESIDUALES#######
+#####Lo que se va analizando de los residuales es que se cumpla con las propiedades  
+###de los residuales queconsisten en:
+#1)No tienen que estar correlacionados
+#2) Los residuales tienen media 0
+#3)tienen varianza constante
+#4) los residuales estan normalmente distribuidos
+
+###para esto en r se tienen que obtener los residuales
+###de cada uno de los cuatro modelos con la finalidad de analizarlos 
+##y conocer su comportamiento
+
+#Para lo anterior primero vamos a graficar los datos con los valores ajustados 
+#para después extraer los residuales de cada modelo y comenzar el análisi correspondiente
+
+x11();plot(mod1,xlab="",ylab = "",main = " ", type="l")
+lines(mod1$fitted,col="orange")
+lines(mod2$fitted,col="purple")
+lines(mod3$fitted,col="brown")
+lines(mod4$fitted,col="green")
+
+e1<-residuals(mod1)
+e2<-residuals(mod2)
+e3<-residuals(mod3)
+e4<-residuals(mod4)
+
+plot(e1, ylab="residuales", xlab="")
+plot(e2, ylab="residuales", xlab="")
+plot(e3, ylab="residuales", xlab="")
+plot(e4, ylab="residuales", xlab="")
+
+hist(e1, nclass="FD", main = "Histograma de Residuales")
+hist(e2, nclass="FD", main = "Histograma de Residuales")
+hist(e3, nclass="FD", main = "Histograma de Residuales")
+hist(e4, nclass="FD", main = "Histograma de Residuales")
+
+### nclass es el numeros de grupos a determinar cuando haces un histograma
+
+####Prueba de autocorrelacion de los residuales
+###para analizar la autocorrelacion hemos visto que 
+###la función acf en la cual nos muestra un correlograma que nos permite
+###mostrar la relación que existe entre los datos además de esta prueba 
+#que es una prueba grafica se utiliza la prueba de ljung Box para esta 
+#prueba se utiliza la función Box.test que permite conocer la correlacion
+# que existe entre los residuales a traves de una prueba de hipotesis
+
+##para obtener el correlograma de los residuales analizados
+##se realiza de la sig manera
+Acf (e1, main="resid 1")
+Acf (e2, main="resid 2")
+Acf (e3, main="resid 3")
+Acf (e4, main="resid 4")
+
+###para comprobar la correlacion de los residuales utilizamos
+#una prueva que se llama ljung box que nos permite saber con mayor 
+# certeza si existe correlacion o no de los residuales
+
+Box.test (e1, lag=10. type="Lj")
+Box.test (e2, lag=10. type="Lj")
+Box.test (e3, lag=10. type="Lj")
+Box.test (e4, lag=10. type="Lj")
+###lag es el número de desfaces que quieres que te de y el Lj del type viene de la prueba
+
+###el estadistico Q de Ljung prueba la hipotesis nula de que las
+# autocorrelaciones de hasta un desface k son iguales a cero (es decir,
+##los valores de los datos son aleatorios e independientes hasta un cierto
+###"número de desfaces"), si el LQB es mayor que un valor critico especificado,
+#las autocorrelaciones para uno o mas desfaces podrían ser estadísticamente 
+#significativas diferentes de cero, lo que indicaria que los valores no son 
+#aleatorios ni independientes
+
+#Las etapas que se utilizan en un análisis de residuales son:
+## 1) elegir el modelo a travez de las medidas MAE y RMSE
+## 2) realizar las pruebas de los residuales de normalidad, independencia
+## y varianza constante una vez que las pruebas son variables ya se puede
+## elegir el modelo como una opcion a considerar para realizar los
+#pronósticos necesarios
