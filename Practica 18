@@ -1,0 +1,14 @@
+W<-read.csv(file.choose(), header = T)
+W
+WN<-ts(W,start = 1833, frequency = 12)
+W
+X11();plot(WN)
+require(fpp)
+ModHA<-hw(WN, seasonal="additive",h=3)
+ModM<-hw(WN, seasonal="multiplicative",h=3)
+Mode<-holt(WN,initial="simple",exponencial=T,h=3)
+
+x11();plot(ModHA, main = "Manchas solares de Wolfer", xlab = "Año", ylab = "Número de manchas solares",col="green")
+lines(ModM$mean,col="blue")
+lines(Mode$mean,col="pink")
+legend("topleft,col=c("green","blue","pink"),c("Modelos Holt Winter aditivo","Modelo Holt Winter multiplicativo","Modelo exponencial"),pch=22)
