@@ -1,0 +1,219 @@
+TD<-read.csv(file.choose())
+D<-ts(TD[1:127,1],start = c(2016,07), frequency=252);D
+ICA<-ts(TD[1:252,2],start = 2016, frequency=252);ICA
+PIB<-ts(TD[1:16,4],start=2016, frequency=1);PIB
+Bim<-ts(TD[1:250,3],start = c(2016,01), frequency=252);Bim
+###############    dolar       ###########################################3
+x11();plot(D,main="Dólar",col="green")
+require(forecast)
+
+##Modelos lineales simples
+Md11<-naive(D,h=4)
+Md12<-snaive(D,h=4)
+Md13<-meanf(D,h=4)
+Md14<-rwf(D,h=4,drift=T)
+
+#Modelos Holt
+
+Mod15<-holt(D,initial = "simple",h=4)
+Mod16<-holt(D,initial = "simple",exponential=T,h=4)
+Mod17<-holt(D,damped=T,h=4)
+Mod18<-holt(D,exponential=T,damped=T,h=4)
+
+#Modelos Holt Winter
+Mod19<-hw(D,seasonal = "additive",h=4)
+Mod110<-hw(D,seasonal = "multiplicative",h=4)
+
+x11();plot(D,main="Dólar")
+lines(Md11$fitted,col=2)
+lines(Md12$fitted,col=3)
+lines(Md13$fitted,col=4)
+lines(Md14$fitted,col=5)
+lines(Mod15$fitted,col=6)
+legend("topleft", pch=16,c("real","ingenuo","ingenuo estacional","media","deriva","holt"),col=c(1,2,3,4,5,6))
+
+x11();plot(D)
+lines(Mod16$fitted,col=2)
+lines(Mod17$fitted,col=3)
+lines(Mod18$fitted,col=4)
+lines(Mod19$fitted,col=5)
+lines(Mod110$fitted,col=6)
+legend("topleft", pch=16,c("real","holt exponencial","holt amortiguado","holt amortiguado exponencial" ,"winter aditivo","winter multiplicativo"),col=c(1,2,3,4,5,6))
+
+#### El que mejor ajusta es el holt amortiguado exponencial
+accuracy(Md11)
+accuracy(Md12)
+accuracy(Md13)
+accuracy(Md14)
+accuracy(Md15)
+accuracy(Mod16)
+accuracy(Mod17)
+accuracy(Mod18)
+accuracy(Mod19)
+accuracy(Mod110)
+
+Mod110$residuals
+
+x11();plot(m11,main="Pronóstico holt amortiguado exponencial ")
+lines(Mod18$fitted,col="green",lty=3)
+legend("topleft",pch=16,c("real","holt amortiguado exponencial"),col=c("black","green"))
+
+################### ICA ######################
+x11();plot(ICA,main="ICA",col="red")
+
+##Modelos lineales simples
+Md21<-naive(ICA,h=4)
+Md22<-snaive(ICA,h=4)
+Md23<-meanf(ICA,h=4)
+Md24<-rwf(ICA,h=4,drift=T)
+
+
+#Modelos Holt
+Md25<-holt(ICA,initial = "simple",h=4)
+Md26<-holt(ICA,initial = "simple",exponential=T,h=4)
+Md27<-holt(ICA,damped=T,h=4)
+Md28<-holt(ICA,exponential=T,damped=T,h=4)
+
+#Modelos Holt Winter
+Md29<-hw(ICA,seasonal = "additive",h=4)
+Md210<-hw(ICA,seasonal = "multiplicative",h=4)
+
+x11();plot(ICA,main="ICA")
+lines(Md21$fitted,col=2)
+lines(Md22$fitted,col=3)
+lines(Md23$fitted,col=4)
+lines(Md24$fitted,col=5)
+lines(Mo25$fitted,col=6)
+legend("topleft", pch=16,c("real","ingenuo","ingenuo estacional","media","deriva","holt"),col=c(1,2,3,4,5,6))
+
+x11();plot(ICA,main="ICA")
+lines(Md26$fitted,col=2)
+lines(Md27$fitted,col=3)
+lines(Md28$fitted,col=4)
+lines(Md29$fitted,col=5)
+lines(Md210$fitted,col=6)
+legend("topleft", pch=16,c("real","holt exponencial","holt amortiguado","holt amortiguado exponencial" ,"winter aditivo","winter multiplicativo"),col=c(1,2,3,4,5,6))
+
+#### El que mejor ajusta es el modelo lineal simple derivado
+accuracy(Md21)
+accuracy(Md22)
+accuracy(Md23)
+accuracy(Md24)
+accuracy(Md25)
+accuracy(Md26)
+accuracy(Md27)
+accuracy(Md28)
+accuracy(Md29)
+accuracy(Md210)
+
+x11();plot(Md24,main="Pronóstico lineal simple derivado")
+lines(Mod18$fitted,col="green",lty=3)
+legend("topleft",pch=16,c("real","lineal simple derivado"),col=c("black","brown"))
+
+################ Bimbo ################################################################
+
+x11();plot(Bim,main="Bimbo",col="pink")
+
+##Modelos lineales simples
+Md41<-naive(Bim,h=4)
+Md42<-snaive(Bim,h=4)
+Md43<-meanf(Bim,h=4)
+Md44<-rwf(Bim,h=4,drift=T)
+
+
+#Modelos Holt
+Md45<-holt(Bim,initial = "simple",h=4)
+Md46<-holt(Bim,initial = "simple",exponential=T,h=4)
+Md47<-holt(Bim,damped=T,h=4)
+Md48<-holt(Bim,exponential=T,damped=T,h=4)
+
+#Modelos Holt Winter
+Md49<-hw(Bim,seasonal = "additive",h=4)
+Md410<-hw(Bim,seasonal = "multiplicative",h=4)
+
+x11();plot(Bim,main="Bimbo")
+lines(Md41$fitted,col=2)
+lines(Md42$fitted,col=3)
+lines(Md43$fitted,col=4)
+lines(Md44$fitted,col=5)
+lines(Md45$fitted,col=6)
+legend("topleft", pch=16,c("real","ingenuo","ingenuo estacional","media","deriva","holt"),col=c(1,2,3,4,5,6))
+
+x11();plot(Bim,main="Bimbo")
+lines(Md46$fitted,col=2)
+lines(Md47$fitted,col=3)
+lines(Md48$fitted,col=4)
+lines(Md49$fitted,col=5)
+lines(Md410$fitted,col=6)
+legend("topleft", pch=16,c("real","holt exponencial","holt amortiguado","holt amortiguado exponencial" ,"winter aditivo","winter multiplicativo"),col=c(1,2,3,4,5,6))
+
+#### El que mejor ajusta es el modelo holt exponencial amortiguado
+accuracy(Md41)
+accuracy(Md42)
+accuracy(Md43)
+accuracy(Md44)
+accuracy(Md45)
+accuracy(Md46)
+accuracy(Md47)
+accuracy(Md48)
+accuracy(Md49)
+accuracy(Md410)
+
+x11();plot(PIB,main="Pronóstico holt exponencial amortiguado")
+lines(Md48$fitted,col="green",lty=33)
+legend("topleft",pch=16,c("real","holt exponencial amortiguado"),col=c("black","pink"))
+
+################################################ Indice de GINI ##################################################
+G<-read.csv(file.choose())
+GINI<-ts(G, start=1998, frequency=1);GINI
+plot(GINI,col="pink")
+
+##Modelos lineales simples
+Md51<-naive(GINI,h=4)
+Md52<-snaive(GINI,h=4)
+Md53<-meanf(GINI,h=4)
+Md54<-rwf(GINI,h=4,drift=T)
+
+
+#Modelos Holt
+Md55<-holt(GINI,initial = "simple",h=4)
+Md56<-holt(GINI,initial = "simple",exponential=T,h=4)
+Md57<-holt(GINI,damped=T,h=4)
+Md58<-holt(GINI,exponential=T,damped=T,h=4)
+
+#Modelos Holt Winter
+Md59<-hw(GINI,seasonal = "additive",h=4)
+Md510<-hw(GINI,seasonal = "multiplicative",h=4)
+
+x11();plot(GINI,main="Bimbo")
+lines(Md51$fitted,col=2)
+lines(Md52$fitted,col=3)
+lines(Md53$fitted,col=4)
+lines(Md54$fitted,col=5)
+lines(Md55$fitted,col=6)
+legend("topleft", pch=16,c("real","ingenuo","ingenuo estacional","media","deriva","holt"),col=c(1,2,3,4,5,6))
+
+x11();plot(GINI,main="Bimbo")
+lines(Md56$fitted,col=2)
+lines(Md57$fitted,col=3)
+lines(Md58$fitted,col=4)
+lines(Md59$fitted,col=5)
+lines(Md510$fitted,col=6)
+legend("topleft", pch=16,c("real","holt exponencial","holt amortiguado","holt amortiguado exponencial" ,"winter aditivo","winter multiplicativo"),col=c(1,2,3,4,5,6))
+
+#### El que mejor ajusta es el modelo ingenue estacional
+accuracy(Md51)
+accuracy(Md52)
+accuracy(Md53)
+accuracy(Md54)
+accuracy(Md55)
+accuracy(Md56)
+accuracy(Md57)
+accuracy(Md58)
+accuracy(Md59)
+accuracy(Md510)
+
+x11();plot(PIB,main="Pronóstico ingenue estacional")
+lines(Md52$fitted,col="purple",lty=33)
+legend("topleft",pch=16,c("real","holt exponencial amortiguado"),col=c("black","purple"))
+plot(Md51$fitted,col="purple")
