@@ -1,0 +1,11 @@
+ICA<-read.csv(file.choose())
+otra<- sample(300:900,252)
+
+icats<- ts(ICA, start = c(2016,08),frequency = 252)
+otrats<-ts(otra,start = c(2016,08), frequency = 252)
+x11();acf(icats)####ruido blanco, es aleatoria, no hay relación entre sus observaciones
+x11();acf(otrats)###hay relacion entre las OBSERVACIONES
+####################################### TAREA DIA DE LAS MADRES##############
+####investigar como hacer la diferenciacion de una serie de tiempo como la de ICa
+###deferenciacion manual o con función de los primeros 10 datos
+####puede ser con una función o manualmente
