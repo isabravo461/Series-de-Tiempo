@@ -1,0 +1,62 @@
+Bimbo<-read.csv(file.choose())
+(bimts<-ts(Bimbo[,2],frequency=252,start = 2016))
+(cemts<-ts(Bimbo[,1],frequency=252,start = 2016))
+
+####Corroboramos si nuestra serie es estacionaria
+###para eso aplicamos la prueba de raiz unitaria a travez de la función 
+## adf.test y checamos el p-value<0.05
+
+require(fpp)
+adf.test(bimts)
+dbimts<-diff(bimts) ###aplicamos la primera diferenciación con la función diff y vemos si ya es estacionaria
+adf.test(dbimts)
+###POR LO TANTO CON UNA DIFERENCIACIÓN ES ESTACIONARIA y d=1
+x11();acf (dbimts)
+###para encontrar el valor de los promedios moviles usamos el correlograma 
+###con el correlograma vemos el número de líneas que sobre pasan las bandas de confianza o lineas
+####contamos las observaciones que exceden el rango o las bandas de confianza incluyendo el primer dato 
+acf(dbimts)
+#### Para el grado de modelos autorregresivosp, se utiliza la función paf() partial autocorrelation function
+pacf(dbimts)
+###Por lo tanto p=4
+##Por lo que se propone un modelo ARIMA (4,1,4)
+modbin <- Arima (bimts, order=c(4,1,4))
+modbin
+###se toma el AICc menor
+
+mod2<-Arima(bimts,order=c(1,1,4))
+mod2
+
+
+#####tiene que cumplir que no tenga ruido blancp o sEA QUE LOS residuales sean menor entre ellos
+modres<- residuals(modbin)
+Box.test(modres, lag=12, type="Ljung-Box")#p value grandes sugieren que los errores 
+#### son independientes (ruido blanco)
+#####como el modelo 1 tiene p-value grande los residuales son independientes
+
+mod1<-forecast(modbin,h=12)
+x11();plot(forecast(modbin,h=12), include = 18) ###el include es para que te de los últimos en este caso 18 datos en mi serie de tiempo,
+###porque aveces ee corta para que no se pierda la tendencia
+mod1
+summary(mod1)
+###autoarima es una función que a treves de un modelo de máxima verosimilitud te propone p, q y d 
+
+auto.arima(bimts)
+
+mod2r<- residuals(mod2)
+Box.test(modres, lag=12, type="Ljung-Box")
+x11();plot(forecast(mod2,h=12), include=18)
+
+
+###########################################################################################################
+adf.test(cemts)
+dicem<-diff(cemts)
+adf.test(dicem)
+##Por lo que la diferenciación estacionaria es de 1 y d=1
+x11();acf(dicem)### como este es el de medias moviles q=2
+x11();pacf(dicem)#### Autorregresivo de 1 entonces p=1
+mCem <-Arima(cemts,order=c(1,1,2)) ## c(p,d,q)
+mCem
+RCem<- residuals(mCem)
+Box.test(RCem, lag=12, type="Ljung-Box")# p-value= 0.3491 por lo que no se rechaza la hipotesis nula
+###por lo que los errores son independientes (ruido blanco)
