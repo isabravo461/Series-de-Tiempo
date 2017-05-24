@@ -1,0 +1,65 @@
+BD <- read.csv(file.choose())
+BD
+require(fpp) ### para Arima
+cc1<- ts(BD, frequency=252, start=2016)
+zz<- Arima (cc1, order=c(1,0,0))
+zz
+##yt=c+ fi1(Yt-1)+fi2(Yt-2)+...+fip(Yt-p)+et
+# Een este caso el modelo AR(1) se plantea de la siguiente manera
+###yt= 13.3425 + 0.9864(Yt-1)+et..... en este caso fi1 = 0.9863
+####coerficiente del modelo autorregresivo 1 es 0.9864
+
+
+#Si tuvieramos un modelo Autorregresivo de orden 2 se expresa como modelo
+###arima de la siguiente forma
+
+zz2 <- Arima(cc1, order = c(2,0,0))
+zz2
+###el Arima da mas criterios delk AIC que es arima
+##En este caso el modelo AR(2) se plantea de la siguiente manera
+## yt = 13.2634 + 1.0601 (Yt-1) - 0.0755 (Yt-2) + et .... en este caso fi1 = 1.0601
+##di2 = 0.0755
+
+
+###Ahora bien si tenemos un modelo de promedios móviles MA (q) se puede expresar 
+##yt= c + teta1(et-1)+teta2(et-2)+...+ tetap(et-q)+et
+### A traves del modelo se "Arima# se expresa esta forma:
+
+yy<- Arima (cc1, order = c(0,0,1)) ### en este caso es un MA(1)
+yy
+### se puede expresar
+###yt = teta1(Yt-1)+ teta2q(Yt-2) +...+tetap(Yt-p)
+##para el modelo planteado se expresa 
+#yt= 12.7409 + .8605(et-1)+ et en este caso teta1= 0.8605
+
+
+###PARA UN MODELO DE MODELOS MOVILES DE ORDEN 2 SE EXPRESA EN UN MODELO ARIMA COMO:
+yy2<- Arima(cc1, order = c(0,0,2))
+yy2
+# en este caso se tienen un modelo de MA(2)
+
+
+###Para el modelo planteado se expresa...
+### yt=12.7481 + 1.339 (et-1) + 0.7423 (et-2) + et .... en este caso
+### c= 12.7881,  teta1=1.339, teta2=0.7423
+
+
+####### MODELOS ARIMA (con diferenciación)
+###y´t = c+ fi1(Yt-1)+.....+ fit(Yt-p)+teta1(et-1)+teta2(et-2)+...+ tetap(et-q)+et
+
+
+######PARA UN MODELO ARIMA CON p=2, d=3, q=2 EXPRESA:
+yy3<- Arima (cc1, order = c(2,3,2))
+yy3
+
+###con este modelo expresamos
+
+####Y´´´t= 0.0716 (Y´´t-1)-0.1527(Y´´´t-2)-1.9987(et-1)+0.9998(et-2)+et
+
+
+####################################################################################################
+###GRUPO MODELO
+GM<-  read.csv(file.choose())
+yy4 <- Arima(cc1, order = c(4,2,1))
+yy4
+###YT= 00.9885 + 0.0328 fi1(Yt-1) - 0.159 fi2(Yt-2) - 0.1412 fi3(Yt-3) - 0.1009 fi4(Yt-4) + et  
